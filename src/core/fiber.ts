@@ -48,7 +48,12 @@ export class Fiber {
     }
   }
 
-
+  /**
+   * 查找存在dom的父节点
+   * let parent = Fiber.findParent(fiber, 'dom')
+   * 查找存在sibling的父节点
+   * const parent = Fiber.findParent(fiber, 'sibling')
+   */
   static findParent(fiber: Fiber, key: keyof Fiber) {
     let parent = fiber.return
 
