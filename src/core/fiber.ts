@@ -2,7 +2,7 @@ import { EffectHook, Hook, VDomType } from "./type"
 import { VDom } from "./vdom"
 
 export class Fiber {
-  static unitWork?: Fiber // 工作单元
+  static unitWork?: Fiber // 工作单元,正在被处理的fiber节点
   static wipRoot?: Fiber // 正在绘制
   static curRoot?: Fiber // 绘制完成
   static wip?: Fiber  // 这在执行的函数组件对应的Fiber
@@ -20,7 +20,7 @@ export class Fiber {
   hooks?: Hook[]
   effectHooks?: EffectHook[]
   /**
-   * 创建新的fiber
+   * 根据 vdom 创建新的 fiber
    */
   constructor(vdom: VDom) {
     this.effectTag = 'placement'
@@ -68,6 +68,7 @@ export class Fiber {
 
   /**
    * 创建fiber
+   * newFiber = vdom + oldFiber
    * 类型没有发生变化: 复用
    * 类型发生变化: 不复用
    */
@@ -96,7 +97,7 @@ export class Fiber {
     let brother: Fiber
     children.map((vdom, i) => {
       const newFiber = Fiber.createFiber(vdom, oldFiber)
-      callback(newFiber, i, brother)
+      callback(newFiber, i, brother) // 在这里链接child, sibling, return 属性
       brother = newFiber
       oldFiber = oldFiber?.sibling
     })

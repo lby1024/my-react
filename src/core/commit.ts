@@ -1,7 +1,9 @@
 import { appendDom, removeDom, updateDom } from "./dom"
 import { Fiber } from "./fiber"
 import { commitEffect } from "./useEffect"
-
+/**
+ * fiber tree 构建完成后执行commit
+ */
 export function commit() {
   commitDom(Fiber.wipRoot?.child)
   commitEffect()

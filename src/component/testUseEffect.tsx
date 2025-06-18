@@ -1,6 +1,6 @@
 import React from "../core/react";
 export const TestUseEffect = () => {
-  const [count, setCount] = React.useState(3)
+  const [count, setCount] = React.useState(3);
 
   React.useEffect(() => {
     console.log("init");
@@ -26,14 +26,14 @@ export const TestUseEffect = () => {
   }, [1]);
 
   const click = () => {
-    setCount(n => n + 1)
-  }
+    setCount((n) => n + 1);
+  };
 
   return (
     <div>
-      <h1>useEffect test</h1>
+      <h1>useEffect test: 需要查看打印台</h1>
       <p>{count}</p>
-      <button onClick={click} >click</button>
+      <button onClick={click}>click</button>
     </div>
-  )
-}
+  );
+};
