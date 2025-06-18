@@ -12,7 +12,7 @@ function workLoop(d: IdleDeadline) {
 
   while (hasTime() && Fiber.unitWork) {
     Fiber.unitWork = unitWork(Fiber.unitWork)
-
+    // 局部更新fiber树, 的边界判断
     if (Fiber.wipRoot?.sibling === Fiber.unitWork) {
       Fiber.unitWork = undefined
     }

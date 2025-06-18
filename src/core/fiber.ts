@@ -1,4 +1,4 @@
-import { EffectHook, Hook, Ojb, VDomType } from "./type"
+import { EffectHook, Hook, VDomType } from "./type"
 import { VDom } from "./vdom"
 
 export class Fiber {
