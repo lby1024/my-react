@@ -58,17 +58,36 @@ export function updateDom(
   newProps: Ojb,
   oldProps: Ojb = {}
 ) {
+  
+  foreachProps(newProps, oldProps, (key, type) => {
+    if(type === 'add') setAttr(dom, key, newProps[key])
+    if(type === 'update') setAttr(dom, key, newProps[key], oldProps[key])
+    if(type === 'delete') removeAttr(dom, key)
+  })
 
+}
+
+/**
+ * 更新真实节点
+ * 1. old有,  new有   -> update属性
+ * 2. old有,  new没有 -> 删除属性
+ * 3. new有, old没有  -> add属性
+ */
+function foreachProps(
+  newProps: Ojb,
+  oldProps: Ojb,
+  cb: (key: string, type: 'add'|'update'|'delete') => void
+) {
   Object.keys(oldProps)
     .filter(key => key !== 'children')
     .forEach(key => {
       // 1. old有,  new有   -> update
       if (key in newProps) {
-        setAttr(dom, key, newProps[key], oldProps[key])
+        cb(key, 'update')
       }
       // 2. old有,  new没有 -> 删除
       else {
-        removeAttr(dom, key)
+        cb(key, 'delete')
       }
     })
 
@@ -77,16 +96,15 @@ export function updateDom(
     .filter(key => key !== 'children')
     .forEach(key => {
       if (key in oldProps) return
-      setAttr(dom, key, newProps[key])
+      cb(key, 'add')
     })
-
 }
 
 function setAttr(
   dom: Element | Text,
   key: string,
   value: any,
-  oldValue?: any
+  oldValue?: any // 解绑事件要用
 ) {
   if (key.startsWith("on")) {
     const eventType = key.slice(2).toLowerCase();
