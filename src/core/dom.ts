@@ -58,7 +58,7 @@ export function updateDom(
   newProps: Ojb,
   oldProps: Ojb = {}
 ) {
-  
+
   foreachProps(newProps, oldProps, (key, type) => {
     if(type === 'add') setAttr(dom, key, newProps[key])
     if(type === 'update') setAttr(dom, key, newProps[key], oldProps[key])
@@ -68,10 +68,10 @@ export function updateDom(
 }
 
 /**
- * 更新真实节点
- * 1. old有,  new有   -> update属性
- * 2. old有,  new没有 -> 删除属性
- * 3. new有, old没有  -> add属性
+ * 把newProps 和 oldProps 的属性都遍历一遍, 并且标明 type
+ * 1. old有,  new有   -> type: update
+ * 2. old有,  new没有 -> type: delete
+ * 3. new有, old没有  -> type: add
  */
 function foreachProps(
   newProps: Ojb,
@@ -81,13 +81,11 @@ function foreachProps(
   Object.keys(oldProps)
     .filter(key => key !== 'children')
     .forEach(key => {
-      // 1. old有,  new有   -> update
       if (key in newProps) {
-        cb(key, 'update')
+        cb(key, 'update') // 1. old有,  new有   -> update
       }
-      // 2. old有,  new没有 -> 删除
       else {
-        cb(key, 'delete')
+        cb(key, 'delete') // 2. old有,  new没有 -> 删除
       }
     })
 

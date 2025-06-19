@@ -34,6 +34,8 @@ export class Fiber {
   }
   /**
    * 复用旧的fiber
+   * 根据vdom生成新的newFiber, 并且复用之前的oldFiber
+   * newFiber = vdom + oldFiber 
    */
   static copy(oldFiber: Fiber, vdom?: VDom): Fiber {
     return {
@@ -77,7 +79,7 @@ export class Fiber {
     const sameType = vdom.type === oldfiber?.type
 
     if (sameType) {
-      return Fiber.copy(oldfiber, vdom)
+      return Fiber.copy(oldfiber, vdom) // newFiber = vdom + oldFiber
     }
 
     if (oldfiber) {
