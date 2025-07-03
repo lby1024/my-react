@@ -21,7 +21,10 @@ export function useState<T>(initValue: T) {
   Fiber.hookIndex++
 
   function setState(value: any) {
-    const cb: Function = typeof value === 'function' ? value : () => value
+    const cb: Function = typeof value === 'function'
+      ? value
+      : () => value
+
     if (hasChanged(cb) === false) return
     hook.ququ.push(cb)
     React.render(fiber!)
